@@ -1,7 +1,7 @@
 services:
   backend:
     build:
-      context: ./MoneyDetector-main
+      context: ./MoneyDetector
       dockerfile: Dockerfile
       args:
         TORCH_INDEX_URL: https://download.pytorch.org/whl/cu121
@@ -26,8 +26,8 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ./MoneyDetector-main/FastAPI/uploads:/app/FastAPI/uploads
-      - ./MoneyDetector-main/FastAPI/results:/app/FastAPI/results
+      - ./MoneyDetector/FastAPI/uploads:/app/FastAPI/uploads
+      - ./MoneyDetector/FastAPI/results:/app/FastAPI/results
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
       interval: 30s
@@ -37,7 +37,7 @@ services:
 
   web:
     build:
-      context: ./MoneyDetector-main/web/detector
+      context: ./MoneyDetector/web/detector
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
