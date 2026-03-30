@@ -1,0 +1,6 @@
+[submodule "object-segmentation"]
+	path = object-segmentation
+	url = https://github.com/wwwegwerg/coins-obj-seg.git
+[submodule "MoneyDetector"]
+	path = MoneyDetector
+	url = https://github.com/vodavodochka/MoneyDetector.git
