@@ -6,12 +6,12 @@ services:
       args:
         TORCH_INDEX_URL: https://download.pytorch.org/whl/cu121
     restart: unless-stopped
-    gpus: all
+    # gpus: all
     ports:
       - "8000:8000"
     environment:
       DB_HOST: host.docker.internal
-      DB_PORT: "5430"
+      DB_PORT: "5432"
       DB_NAME: practice
       DB_USER: postgres
       DB_PASSWORD: u3%9Rfq54J;<bG_-
@@ -28,12 +28,12 @@ services:
     volumes:
       - ./MoneyDetector/FastAPI/uploads:/app/FastAPI/uploads
       - ./MoneyDetector/FastAPI/results:/app/FastAPI/results
-    healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 40s
+    # healthcheck:
+    #   test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
+    #   interval: 30s
+    #   timeout: 5s
+    #   retries: 3
+    #   start_period: 40s
 
   web:
     build:
@@ -45,24 +45,24 @@ services:
     environment:
       API_BASE: http://backend:8000
       NODE_ENV: production
-    depends_on:
-      backend:
-        condition: service_healthy
+    # depends_on:
+    #   backend:
+    #     condition: service_healthy
 
-  telegram-bot:
-    build:
-      context: ./telegram_bot
-      dockerfile: Dockerfile
-    container_name: coin_detector_telegram_bot
-    restart: unless-stopped
-    env_file:
-      - ./telegram_bot/.env
-    environment:
-      BACKEND_BASE_URL: http://backend:8000
-    volumes:
-      - ./telegram_bot/data:/data
-    ports:
-      - "8080:8080"
-    depends_on:
-      backend:
-        condition: service_healthy
+  # telegram-bot:
+  #   build:
+  #     context: ./telegram_bot
+  #     dockerfile: Dockerfile
+  #   container_name: coin_detector_telegram_bot
+  #   restart: unless-stopped
+  #   env_file:
+  #     - ./telegram_bot/.env
+  #   environment:
+  #     BACKEND_BASE_URL: http://backend:8000
+  #   volumes:
+  #     - ./telegram_bot/data:/data
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     backend:
+  #       condition: service_healthy
